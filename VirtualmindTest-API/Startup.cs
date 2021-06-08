@@ -23,6 +23,7 @@ using Servicios.Compra.Services.Interfaces;
 using Servicios.Compra.Services;
 using FluentValidation.AspNetCore;
 using Servicios.Compra.Validator;
+using Newtonsoft.Json;
 
 
 namespace VirtualmindTest_API
@@ -39,13 +40,17 @@ namespace VirtualmindTest_API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers()
-            .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateCompraValidator>());
-
             services.AddCors(c =>
             {
-                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
+                c.AddPolicy("CorsPolicy", options => options.AllowAnyOrigin()
+                                                            .AllowAnyHeader()
+                                                            .AllowAnyMethod());
             });
+
+            services.AddControllers()
+            .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateCompraValidator>());
+            
+                       
 
             services.AddTransient<ICompraRepository, CompraRepository>();
             services.AddTransient<ICompraServicio, CompraServicio>();
@@ -85,6 +90,8 @@ namespace VirtualmindTest_API
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors("CorsPolicy");
+
             app.UseHttpsRedirection();
 
             app.UseSwagger();
@@ -98,8 +105,7 @@ namespace VirtualmindTest_API
             app.UseAuthorization();
 
             app.UseMiddleware<ErrorHandlerMiddleware>();
-
-            app.UseCors(options => options.AllowAnyOrigin());
+            
 
             app.UseEndpoints(endpoints =>
             {
