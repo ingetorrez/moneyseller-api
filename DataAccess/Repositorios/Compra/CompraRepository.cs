@@ -24,21 +24,7 @@ namespace DataAccess.Repositorios.Compra
             }
         }
         
-        public List<CompraEntidad> GetAll()
-        {
-            using (IDbConnection conn = new SqlConnection(ConnectionString))
-            {
-                return conn.GetList<CompraEntidad>().AsList();
-            }
-        }
 
-        public CompraEntidad GetById(int id)
-        {
-            using (IDbConnection conn = new SqlConnection(ConnectionString))
-            {
-                return conn.Get<CompraEntidad>(id);
-            }
-        }
 
         public decimal GetMontoAcumulado(int idUsuario, string moneda)
         {

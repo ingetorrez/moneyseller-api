@@ -9,6 +9,7 @@ using System.Globalization;
 using System.Linq;
 using Newtonsoft.Json;
 using Servicios.Helpers;
+using Objects.Compra.Models;
 
 namespace Servicios.Cambio.Services
 {
@@ -58,6 +59,17 @@ namespace Servicios.Cambio.Services
 
 
 
+        }
+
+        public BothCurrencyModel GetAll()
+        {
+            decimal dolar = GetCambio("dolar");
+
+            return new BothCurrencyModel()
+            {
+                Dolar = dolar,
+                Real = dolar / 4
+            };
         }
     }
 }

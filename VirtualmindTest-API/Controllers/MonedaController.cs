@@ -29,7 +29,30 @@ namespace VirtualmindTest_API.Controllers
             CompraServicio = compraServicio;
             Logger = logger;
         }
-        
+
+
+        [HttpGet]
+        [Route("GetAll")]
+        public ActionResult<BothCurrencyModel> GetAll()
+        {
+            try
+            {
+                BothCurrencyModel cambio = CambioService.GetAll();
+
+                Logger.LogTrace("Cambio obtenido con éxito");
+
+                return Ok(cambio);
+            }
+            catch (AppException e)
+            {
+                Logger.LogError(string.Format("AppException : {0}", e.Message));
+                return BadRequest(e.Message);
+
+            }
+
+
+        }
+
         /// <summary>
         /// Endpoint para obtener el cambio de peso argentino a dolar o real
         /// </summary>
