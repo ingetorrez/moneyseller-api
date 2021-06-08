@@ -41,7 +41,11 @@ namespace VirtualmindTest_API
         {
             services.AddControllers()
             .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateCompraValidator>());
-        
+
+            services.AddCors(c =>
+            {
+                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
+            });
 
             services.AddTransient<ICompraRepository, CompraRepository>();
             services.AddTransient<ICompraServicio, CompraServicio>();
@@ -94,6 +98,8 @@ namespace VirtualmindTest_API
             app.UseAuthorization();
 
             app.UseMiddleware<ErrorHandlerMiddleware>();
+
+            app.UseCors(options => options.AllowAnyOrigin());
 
             app.UseEndpoints(endpoints =>
             {

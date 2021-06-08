@@ -9,7 +9,6 @@ namespace DataAccess.Repositorios.Compra.Interfaces
     {
         CompraEntidad Create(CompraEntidad entity);
         decimal GetMontoAcumulado(int idUsuario, string moneda);
-        List<CompraEntidad> GetAll();
-        CompraEntidad GetById(int id);
+     
     }
 }
